@@ -1,0 +1,189 @@
+package numbers;
+
+import java.util.*;
+
+public class Cheking {
+    static List<String> propertiesList = Arrays.asList("EVEN", "ODD", "BUZZ", "DUCK", "PALINDROMIC",
+            "GAPFUL", "SPY", "SQUARE", "SUNNY", "JUMPING", "HAPPY", "SAD", "-EVEN", "-ODD", "-BUZZ", "-DUCK", "-PALINDROMIC",
+            "-GAPFUL", "-SPY", "-SQUARE", "-SUNNY", "-JUMPING", "-HAPPY", "-SAD");
+
+    static void checkArguments(long number1, long number2, String[] properties) {
+        if (number1 < 0) {
+            System.out.println("The first parameter should be a natural number or zero.");
+        } else if (number2 <= 0) {
+            System.out.println("The second parameter should be a natural number.");
+        } else if (checkProperties(properties)) {
+            Main.start();
+        } else {
+            TwoArg.outputNumbers(number1, number2, properties);
+        }
+    }
+    public static boolean checkProperties(String[] properties) {
+        int count = 0;
+        boolean checkProperties = false;
+        StringBuilder property = new StringBuilder();
+        for (int i = 0; i < properties.length; i++) {
+            if (!propertiesList.contains(properties[i].toUpperCase())) {
+                count++;
+                property.append(" ").append(properties[i]);
+            }
+        }
+        String[] wrongOutput = property.toString().trim().split("\\s+");
+
+        if (count == 1 && checkProperty(wrongOutput[0])) {
+            System.out.printf("""
+                  The property [%s] is wrong. 
+                  Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING, HAPPY, SAD]
+                  """, wrongOutput[0].toUpperCase());
+            checkProperties = true;
+        } else if (count == 2 && checkProperty(wrongOutput[0]) && checkProperty(wrongOutput[1])) {
+            System.out.printf("""
+                   The properties [%s, %s] are wrong. 
+                   Available properties: [EVEN, ODD, BUZZ, DUCK, PALINDROMIC, GAPFUL, SPY, SQUARE, SUNNY, JUMPING, HAPPY, SAD]
+                   """, wrongOutput[0].toUpperCase(), wrongOutput[1].toUpperCase());
+            checkProperties = true;
+        } else if (properties.length >= 2 && mutuallyExclusive(properties)) {
+            checkProperties = true;
+        }
+        return checkProperties;
+    }
+    private static boolean mutuallyExclusive(String[] properties) {
+        boolean mutuallyExclusive = false;
+        for (int i = 0; i < properties.length; i++) {
+            for (int j = 1; j < properties.length; j++) {
+                if (properties[i].equals("even") && properties[j].equals("odd")
+                        || properties[i].equals("-even") && properties[j].equals("-odd")
+                        || properties[i].equals("odd") && properties[j].equals("even")
+                        || properties[i].equals("-odd") && properties[j].equals("-even")) {
+                    System.out.printf("""
+                            The request contains mutually exclusive properties: [%s, %s]
+                            There are no numbers with these properties.
+                            """, properties[i].toUpperCase(), properties[j].toUpperCase());
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("duck") && properties[j].equals("spy")
+                        || properties[i].equals("-duck") && properties[j].equals("-spy")
+                        || properties[i].equals("spy") && properties[j].equals("duck")
+                        || properties[i].equals("-spy") && properties[j].equals("-duck")) {
+                    System.out.printf("""
+                            The request contains mutually exclusive properties: [%s, %s]
+                            There are no numbers with these properties.
+                            """, properties[i].toUpperCase(), properties[j].toUpperCase());
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("sunny") && properties[j].equals("square")
+                        || properties[i].equals("-sunny") && properties[j].equals("-square")
+                        || properties[i].equals("square") && properties[j].equals("sunny")
+                        || properties[i].equals("-square") && properties[j].equals("-sunny")) {
+                    System.out.printf("""
+                            The request contains mutually exclusive properties: [%s, %s]
+                            There are no numbers with these properties.
+                            """, properties[i].toUpperCase(), properties[j].toUpperCase());
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("happy") && properties[j].equals("sad")
+                        || properties[i].equals("-happy") && properties[j].equals("-sad")
+                        || properties[i].equals("sad") && properties[j].equals("happy")
+                        || properties[i].equals("-sad") && properties[j].equals("-happy")) {
+                    System.out.printf("""
+                            The request contains mutually exclusive properties: [%s, %s]
+                            There are no numbers with these properties.
+                            """, properties[i].toUpperCase(), properties[j].toUpperCase());
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("even") && properties[j].equals("-even")
+                        || properties[i].equals("-even") && properties[j].equals("even")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [EVEN, -EVEN]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("odd") && properties[j].equals("-odd")
+                        || properties[i].equals("-odd") && properties[j].equals("odd")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [ODD, -ODD]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("buzz") && properties[j].equals("-buzz")
+                        || properties[i].equals("-buzz") && properties[j].equals("buzz")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [BUZZ, -BUZZ]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("duck") && properties[j].equals("-duck")
+                        || properties[i].equals("-duck") && properties[j].equals("duck")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [DUCK, -DUCK]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("palindromic") && properties[j].equals("-palindromic")
+                        || properties[i].equals("-palindromic") && properties[j].equals("palindromic")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [PALINDROMIC, -PALINDROMIC]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("gapful") && properties[j].equals("-gapful")
+                        || properties[i].equals("-gapful") && properties[j].equals("gapful")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [GAPFUL, -GAPFUL]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("spy") && properties[j].equals("-spy")
+                        || properties[i].equals("-spy") && properties[j].equals("spy")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [SPY, -SPY]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("square") && properties[j].equals("-square")
+                        || properties[i].equals("-square") && properties[j].equals("square")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [SQUARE, -SQUARE]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("sunny") && properties[j].equals("-sunny")
+                        || properties[i].equals("-sunny") && properties[j].equals("sunny")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [SUNNY, -SUNNY]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("jumping") && properties[j].equals("-jumping")
+                        || properties[i].equals("-jumping") && properties[j].equals("jumping")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [JUMPING, -JUMPING]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("happy") && properties[j].equals("-happy")
+                        || properties[i].equals("-happy") && properties[j].equals("happy")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [HAPPY, -HAPPY]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                } else if (properties[i].equals("sad") && properties[j].equals("-sad")
+                        || properties[i].equals("-sad") && properties[j].equals("sad")) {
+                    System.out.println("""
+                            The request contains mutually exclusive properties: [SAD, -SAD]
+                            There are no numbers with these properties.
+                            """);
+                    mutuallyExclusive = true;
+                }
+            }
+        }
+        return mutuallyExclusive;
+    }
+    private static boolean checkProperty(String property) {
+        return  !property.equals("buzz") && !property.equals("duck") && !property.equals("palindromic")
+                && !property.equals("gapful") && !property.equals("spy") && !property.equals("even")
+                && !property.equals("odd") && !property.equals("sunny") && !property.equals("square")
+                && !property.equals("jumping") && !property.equals("happy") && !property.equals("sad")
+                && !property.equals("-buzz") && !property.equals("-duck") && !property.equals("-palindromic")
+                && !property.equals("-gapful") && !property.equals("-spy") && !property.equals("-even")
+                && !property.equals("-odd") && !property.equals("-sunny") && !property.equals("-square")
+                && !property.equals("-jumping") && !property.equals("-happy") && !property.equals("-sad");
+    }
+}
