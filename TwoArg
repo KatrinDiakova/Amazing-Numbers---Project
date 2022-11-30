@@ -1,0 +1,99 @@
+package numbers;
+
+import java.util.*;
+
+public class TwoArg {
+
+    static void twoArgument(long fNum, long listLen) {
+        for (int i = 0; i < listLen; i++) {
+            System.out.print((fNum + i) + " is ");
+            System.out.print(String.join(", ", properties(fNum + i)));
+            System.out.println();
+        }
+    }
+
+    static void MoreThenTwoArgs(String[] nArray) {
+        String[] properties = new String[nArray.length - 2];
+        long number1 = Long.parseLong(nArray[0]);
+        long number2 = Long.parseLong(nArray[1]);
+        for (int i = 2; i < nArray.length; i++) {
+            properties[i - 2] = nArray[i];
+        }
+        Cheking.checkArguments(number1, number2, properties);
+    }
+
+    static void outputNumbers(long number1, long number2, String[] properties) {
+        int counterNumber2 = 0;
+        while (counterNumber2 < number2) {
+            List<String> list = properties(number1);
+            if (checkParameters(properties, list)) {
+                System.out.print((number1) + " is ");
+                System.out.print(String.join(", ", properties(number1)));
+                System.out.println();
+                number1++;
+                counterNumber2++;
+            } else {
+                number1++;
+            }
+        }
+    }
+
+    private static boolean checkParameters(String[] properties, List<String> list) {
+        boolean flag = true;
+        for (String property : properties) {
+            if (!property.startsWith("-")) {
+               if (!(list.toString().contains(property))) {
+                   flag = false;
+                   break;
+               }
+            } else {
+                 if (list.toString().contains(property.replace("-", ""))) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        return flag;
+    }
+
+    public static List<String> properties(long fNum) {
+        List<String> whichProperties = new ArrayList<>();
+        if (OneArg.even(fNum)) {
+            whichProperties.add("even");
+        }
+        if (OneArg.odd(fNum)) {
+            whichProperties.add("odd");
+        }
+        if (OneArg.buzz(fNum)) {
+            whichProperties.add("buzz");
+        }
+        if (OneArg.duck(fNum)) {
+            whichProperties.add("duck");
+        }
+        if (OneArg.jumping(fNum)) {
+            whichProperties.add("jumping");
+        }
+        if (OneArg.palindromic(fNum)) {
+            whichProperties.add("palindromic");
+        }
+        if (OneArg.gapful(fNum)) {
+            whichProperties.add("gapful");
+        }
+        if (OneArg.spy(fNum)) {
+            whichProperties.add("spy");
+        }
+        if (OneArg.square(fNum)) {
+            whichProperties.add("square");
+        }
+        if (OneArg.sunny(fNum)) {
+            whichProperties.add("sunny");
+        }
+        if (OneArg.happy(fNum)) {
+            whichProperties.add("happy");
+        }
+        if (OneArg.sad(fNum)) {
+            whichProperties.add("sad");
+        }
+        return whichProperties;
+    }
+}
