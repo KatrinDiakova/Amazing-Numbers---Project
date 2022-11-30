@@ -1,0 +1,154 @@
+package numbers;
+
+public class OneArg {
+    static void oneArgument(long input) {
+        System.out.println("Properties of " + input);
+        System.out.println("even: " + even(input));
+        System.out.println("odd: " + odd(input));
+        System.out.println("buzz: " + buzz(input));
+        System.out.println("duck: " + duck(input));
+        System.out.println("jumping: " + jumping(input));
+        System.out.println("palindromic: " + palindromic(input));
+        System.out.println("gapful: " + gapful(input));
+        System.out.println("spy: " + spy(input));
+        System.out.println("square: " + square(input));
+        System.out.println("sunny: " + sunny(input));
+        System.out.println("happy: " + happy(input));
+        System.out.println("sad: " + sad(input));
+    }
+    static long checkHappyNumber(long input) {
+        long rem, sum = 0;
+        while (input > 0)
+        {
+            rem = input % 10;
+            sum = sum + (rem * rem);
+            input = input / 10;
+        }
+        return sum;
+    }
+    static boolean happy(long input) {
+        long result = input;
+        while (result != 1 && result != 4) {
+            result = checkHappyNumber(result);
+        }
+        return result == 1;
+    }
+
+     static boolean sad(long input) {
+        return !happy(input);
+     }
+
+    static boolean jumping(long input) {
+        String n = String.valueOf(input);
+        boolean flag = true;
+        if (n.length() == 1) {
+            flag = true;
+        } else {
+            while (input != 0) {
+                long digit1 = input % 10;
+                input = input / 10;
+                if (input != 0) {
+                    long digit2 = input % 10;
+                    if (Math.abs(digit1 - digit2) != 1) {
+                        flag = false;
+                    }
+                }
+            }
+        }
+        return flag;
+    }
+
+    static boolean sunny(long input) {
+        return square(input + 1);
+    }
+
+    static boolean square(long input) {
+        double numb = (double) input;
+        double sqrt = Math.sqrt(numb);
+        return ((sqrt - Math.floor(sqrt)) == 0);
+    }
+
+    static boolean spy(long input) {
+        String n = String.valueOf(input);
+        long[] numbers =  new long[n.length()];
+        for (int i = 0; i < n.length(); i++) {
+            numbers[i] = n.charAt(i) - '0';
+        }
+        boolean spy = false;
+        long sum = 0;
+        long produce = 1;
+        if (n.length() == 1) {
+            spy = true;
+        } else {
+            for (long number : numbers) {
+                sum += number;
+                produce *= number;
+            }
+            if (sum == produce) {
+                spy = true;
+            }
+        }
+        return spy;
+    }
+
+    static boolean gapful(long input) {
+        boolean gapful = false;
+        String n = String.valueOf(input);
+        String[] numb = n.trim().split("");
+        if (numb.length > 2) {
+            int concatenation = Integer.parseInt(numb[0] + numb[numb.length - 1]);
+            if (input % concatenation == 0) {
+                gapful = true;
+            }
+        } else {
+            return false;
+        }
+        return gapful;
+    }
+
+    static boolean even(long input) {
+        return input % 2 == 0;
+    }
+
+    static boolean odd(long input) {
+        return input % 2 != 0;
+    }
+
+    static boolean buzz(long input) {
+        boolean endsSev = false;
+        boolean divSev = false;
+        long buzz = Math.abs(input / 10 - ((input % 10) * 2));
+        if (input % 10 == 7) {
+            endsSev = true;
+        }
+        if (buzz % 7 == 0 && input >= 7) {
+            divSev = true;
+        }
+        return endsSev || divSev;
+    }
+    static boolean duck(long input) {
+        while (input != 0) {
+            if (input % 10 == 0) {
+                return true;
+            }
+            input = input / 10;
+        }
+        return false;
+    }
+    static boolean palindromic(long input) {
+        String n = String.valueOf(input);
+        boolean palindromic = false;
+        if (n.length() == 1) {
+            palindromic = true;
+        } else {
+            for (int i = 1; i < n.length(); i++) {
+                if (n.charAt(i - 1) == n.charAt(n.length() - i)) {
+                    palindromic = true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return palindromic;
+    }
+}
