@@ -1,0 +1,73 @@
+package numbers;
+
+import java.util.Scanner;
+
+public class Main {
+    private static Scanner sc = new Scanner(System.in);
+    static boolean programRun = true;
+
+    public static void main(String[] args) {
+        System.out.println("""
+                Welcome to Amazing Numbers!
+                                
+                Supported requests:
+                - enter a natural number to know its properties;
+                - enter two natural numbers to obtain the properties of the list:
+                    * the first parameter represents a starting number;
+                    * the second parameter shows how many consecutive numbers are to be printed;
+                - two natural numbers and properties to search for;
+                - a property preceded by minus must not be present in numbers;
+                - separate the parameters with one space;
+                - enter 0 to exit.
+                """);
+        start();
+    }
+    static void start() {
+        while (programRun) {
+            System.out.println("\nEnter a request:");
+            String n = sc.nextLine();
+            String[] nArray = n.toLowerCase().trim().split("\\s+");
+            printRequests(n);
+            if (nArray.length == 1) {
+                long input = Long.parseLong(nArray[0]);
+                if (input < 0) {
+                    System.out.println("The first parameter should be a natural number or zero.");
+                } else if (input == 0) {
+                    System.out.println("\nGoodbye!");
+                    programRun = false;
+                } else {
+                    OneArg.oneArgument(input);
+                }
+            } else if (nArray.length == 2) {
+                long firstNum = Long.parseLong(nArray[0]);
+                long listLen = Long.parseLong(nArray[1]);
+                if (firstNum < 0) {
+                    System.out.println("The first parameter should be a natural number or zero.");
+                } else if (listLen <= 0) {
+                    System.out.println("The second parameter should be a natural number.");
+                } else {
+                    TwoArg.twoArgument(firstNum, listLen);
+                }
+            } else if (nArray.length > 2) {
+                TwoArg.MoreThenTwoArgs(nArray);
+            }
+        }
+    }
+
+    private static void printRequests(String input) {
+        if (input.isEmpty()) {
+            System.out.println("""   
+                    Supported requests:
+                    - enter a natural number to know its properties;
+                    - enter two natural numbers to obtain the properties of the list:
+                        * the first parameter represents a starting number;
+                        * the second parameter shows how many consecutive numbers are to be printed;
+                    - two natural numbers and properties to search for;
+                    - a property preceded by minus must not be present in numbers;
+                    - separate the parameters with one space;
+                    - enter 0 to exit.     
+                    """);
+            start();
+        }
+    }
+}
